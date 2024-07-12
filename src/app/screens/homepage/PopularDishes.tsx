@@ -15,6 +15,7 @@ const list = [
   { productName: "Kebab", imagePath: "/img/kebab.webp" },
   { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
 ];
+
 export default function PopularDishes() {
   return (
     <div className={"popular-dishes-frame"}>
@@ -27,7 +28,7 @@ export default function PopularDishes() {
                 <CssVarsProvider key={index}>
                   <Card className={"card"}>
                     <CardCover>
-                      <img src={ele.imagePath} alt="" />
+                      <img src={ele.imagePath} alt={ele.productName} />
                     </CardCover>
                     <CardCover className={"card-cover"} />
                     <CardContent sx={{ justifyContent: "flex-end" }}>
@@ -62,16 +63,13 @@ export default function PopularDishes() {
                         display: "flex",
                         gap: "1.5",
                         py: "1.5",
-                        px: "var(--Card-padding",
+                        px: "var(--Card-padding)",
                         borderTop: "1px solid",
                         height: "60px",
                       }}
                     >
-                      <Typography
-                        startDecorator={<DescriptionOutlinedIcon />}
-                        textColor="neutral.300"
-                      >
-                        This is delicious meal
+                      <Typography textColor="neutral.300">
+                        <DescriptionOutlinedIcon /> This is a delicious meal
                       </Typography>
                     </CardOverflow>
                   </Card>
