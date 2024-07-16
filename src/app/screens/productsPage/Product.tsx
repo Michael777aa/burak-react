@@ -17,6 +17,7 @@ const products = [
   { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
   { productName: "Steak", imagePath: "/img/steak.webp" },
   { productName: "Steak", imagePath: "/img/steak.webp" },
+  { productName: "Steak", imagePath: "/img/steak.webp" },
 ];
 
 export default function Products() {
@@ -77,16 +78,16 @@ export default function Products() {
                 New
               </Button>
               <Button variant="contained" color="secondary" className="order">
-                Price
+                PRICE
               </Button>
               <Button variant="contained" color="secondary" className="order">
-                Views
+                VIEWS
               </Button>
               <Button variant="contained" color="secondary" className="order">
-                Views
+                VIEWS
               </Button>
               <Button variant="contained" color="secondary" className="order">
-                Views
+                OTHERS
               </Button>
             </Stack>
             <Stack className="product-wrapper">

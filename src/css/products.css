@@ -240,8 +240,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  color: #ff9200;
+  color: #e3c08d;
   font-weight: 800;
+  font-size: 22px;
 }
 .products-page .products .list-category-section .product-desc .product-title {
   color: #343434;
