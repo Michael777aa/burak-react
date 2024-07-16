@@ -12,7 +12,6 @@ export default function ProductsPage() {
           <ChosenProduct />
         </Route>
         <Route path={`${products.path}`}>
-          <ChosenProduct></ChosenProduct>
           <Products />
         </Route>
       </Switch>
