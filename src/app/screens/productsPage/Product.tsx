@@ -75,7 +75,7 @@ export default function Products() {
           <Stack className={"list-category-section"}>
             <Stack className={"product-category"}>
               <Button variant="contained" color="primary" className="order">
-                New
+                NEW
               </Button>
               <Button variant="contained" color="secondary" className="order">
                 PRICE
