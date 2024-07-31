@@ -3,6 +3,9 @@ import HomePageReducer from "./screens/homepage/slice";
 
 export const store = configureStore({
   reducer: {
+    middleware: (getDefaultMiddleware) =>
+      // @ts-ignore
+      getDefaultMiddleware().concat(ReduxLogger),
     homePage: HomePageReducer,
   },
 });
