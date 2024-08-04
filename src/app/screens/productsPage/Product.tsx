@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Button, Container, Input, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
@@ -8,7 +7,19 @@ import Pagination from "@mui/material/Pagination";
 import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { Dispatch, createSelector } from "@reduxjs/toolkit";
+import { setChosenProdust, setProducts, setRestaurant } from "./slice";
+import { Product } from "../../../lib/types/product";
+import { retrieveProducts } from "./selector";
+
+//REDUX SLICE SELECTOR
+const actionDispatch = (dispatch: Dispatch) => ({
+  setProducts: (data: Product[]) => dispatch(setProducts(data)),
+});
+
+const productsRetriever = createSelector(retrieveProducts, (products) => ({
+  products,
+}));
 
 const products = [
   { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
