@@ -11,6 +11,11 @@ import { Dispatch, createSelector } from "@reduxjs/toolkit";
 import { setChosenProdust, setProducts, setRestaurant } from "./slice";
 import { Product } from "../../../lib/types/product";
 import { retrieveProducts } from "./selector";
+import { useEffect } from "react";
+import ProductService from "../../services/ProductService";
+import { ProductCollection } from "../../../lib/enums/product.enum";
+import { useDispatch, useSelector } from "react-redux";
+import { serverApi } from "../../../lib/config";
 
 //REDUX SLICE SELECTOR
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -21,17 +26,22 @@ const productsRetriever = createSelector(retrieveProducts, (products) => ({
   products,
 }));
 
-const products = [
-  { productName: "Cutlet", imagePath: "/img/cutlet.webp" },
-  { productName: "F.Kebab", imagePath: "/img/kebab.webp" },
-  { productName: "Lavash", imagePath: "/img/lavash.webp" },
-  { productName: "Kebab", imagePath: "/img/kebab-fresh.webp" },
-  { productName: "Steak", imagePath: "/img/steak.webp" },
-  { productName: "Steak", imagePath: "/img/steak.webp" },
-  { productName: "Steak", imagePath: "/img/steak.webp" },
-];
-
 export default function Products() {
+  const { setProducts } = actionDispatch(useDispatch());
+  const { products } = useSelector(productsRetriever);
+  useEffect(() => {
+    const product = new ProductService();
+    product
+      .getProducts({
+        page: 1,
+        limit: 8,
+        order: "createdAt",
+        productCollection: ProductCollection.DISH,
+        search: "",
+      })
+      .then((data) => setProducts(data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div className={"products"}>
       <Container>
@@ -103,27 +113,36 @@ export default function Products() {
             </Stack>
             <Stack className="product-wrapper">
               {products.length !== 0 ? (
-                products.map((product, index) => {
+                products.map((product: Product, index) => {
+                  const imagePath = `${serverApi}/${product.productImages[0]}`;
+                  const sizeVolume =
+                    product.productCollection === ProductCollection.DRINK
+                      ? product.productVolume + "litre"
+                      : product.productSize + "size";
                   return (
-                    <Stack key={index} className="product-card">
+                    <Stack key={product._id} className="product-card">
                       <Stack
                         className="product-img"
                         sx={{
-                          backgroundImage: `url(${product.imagePath})`,
+                          backgroundImage: `url(${imagePath})`,
                         }}
                       >
-                        <div className="product-sale">
-                          NORMAL <span>size</span>
-                        </div>
+                        <div className="product-sale">{sizeVolume}</div>
                         <Stack className={"main-two"}>
                           <Button className="shop-btn">
                             <img src="/icons/shopping-cart.svg" />
                           </Button>
                           <Button className="view-btn">
-                            <Badge badgeContent={20} color="secondary">
+                            <Badge
+                              badgeContent={product.productViews}
+                              color="secondary"
+                            >
                               <RemoveRedEyeIcon
                                 sx={{
-                                  color: 20 ? "gray" : "white",
+                                  color:
+                                    product.productViews === 0
+                                      ? "gray"
+                                      : "white",
                                 }}
                               />
                             </Badge>
@@ -136,7 +155,7 @@ export default function Products() {
                         </span>
                         <div className="product-des">
                           <MonetizationOnIcon />
-                          {15}
+                          {product.productPrice}
                         </div>
                       </Box>
                     </Stack>
