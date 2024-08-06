@@ -42,8 +42,10 @@ export default function PopularDishes() {
                       <CardCover className={"card-cover"} />
                       <CardContent sx={{ justifyContent: "flex-end" }}>
                         <Stack
+                          display={"flex"}
                           flexDirection={"row"}
                           justifyContent={"space-between"}
+                          alignItems={"center"}
                         >
                           <Typography
                             level="h2"
@@ -59,11 +61,16 @@ export default function PopularDishes() {
                               color: "neutral.300",
                               alignItems: "center",
                               display: "flex",
+                              position: "relative",
+                              left: "180px",
                             }}
                           >
                             {product.productViews}
                             <VisibilityIcon
-                              sx={{ fontSize: 25, marginLeft: "5px" }}
+                              sx={{
+                                fontSize: 25,
+                                marginLeft: "5px",
+                              }}
                             />
                           </Typography>
                         </Stack>
@@ -71,6 +78,7 @@ export default function PopularDishes() {
                       <CardOverflow
                         sx={{
                           display: "flex",
+
                           gap: "1.5",
                           py: "1.5",
                           px: "var(--Card-padding)",
@@ -78,7 +86,16 @@ export default function PopularDishes() {
                           height: "60px",
                         }}
                       >
-                        <Typography textColor="neutral.300">
+                        <Typography
+                          textColor="neutral.300"
+                          sx={{
+                            display: "flex",
+                            justifyContent: "flex-start",
+                            alignItems: "center",
+                            position: "relative",
+                            top: "15px",
+                          }}
+                        >
                           <DescriptionOutlinedIcon />
                           {product.productDesc}
                         </Typography>
