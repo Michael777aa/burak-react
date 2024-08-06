@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/app.css";
 import { Link, Route, Switch, useLocation } from "react-router-dom";
 import ProductsPage from "./screens/productsPage";
@@ -13,17 +13,46 @@ import "../css/navbar.css";
 import "../css/footer.css";
 import HelpPage from "./screens/helpPage";
 import Test from "./screens/Test";
+import { CartItem } from "../lib/types/search";
 
 function App() {
   const location = useLocation();
-  console.log(location);
+
+  const cartJson: string | null = localStorage.getItem("");
+  const currentCart = cartJson ? JSON.parse(cartJson) : [];
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  /** HANDLERS **/
+  const onAdd = (input: CartItem) => {
+    const exist: any = cartItems.find(
+      (item: CartItem) => item._id === input._id
+    );
+    if (exist) {
+      const cartUpdate = cartItems.map((item: CartItem) => {
+        return item._id === input._id
+          ? { ...exist, quantity: exist.quantity + 1 }
+          : item;
+      });
+
+      setCartItems(cartUpdate);
+      localStorage.setItem("cartData", JSON.stringify(cartUpdate));
+    } else {
+      const cartUpdate = [...cartItems, { ...input }];
+      setCartItems(cartUpdate);
+      localStorage.setItem("cartData", JSON.stringify(cartUpdate));
+    }
+  };
 
   return (
     <>
-      {location.pathname === "/" ? <HomeNavbar /> : <OtherNavbar />}
+      {location.pathname === "/" ? (
+        <HomeNavbar cartItems={cartItems} />
+      ) : (
+        <OtherNavbar cartItems={cartItems} />
+      )}
       <Switch>
         <Route path="/products">
-          <ProductsPage />
+          <ProductsPage onAdd={onAdd} />
         </Route>
         <Route path="/orders">
           <OrdersPage />
