@@ -8,7 +8,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { Dispatch, createSelector } from "@reduxjs/toolkit";
-import { setChosenProdust, setProducts, setRestaurant } from "./slice";
+import { setChosenProduct, setProducts, setRestaurant } from "./slice";
 import { Product, ProductInquiry } from "../../../lib/types/product";
 import { retrieveProducts } from "./selector";
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";

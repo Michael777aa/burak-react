@@ -1,6 +1,7 @@
 import axios from "axios";
 import { serverApi } from "../../lib/config";
 import { Product, ProductInquiry } from "../../lib/types/product";
+import { Member } from "../../lib/types/member";
 
 class ProductService {
   private readonly path: string;
@@ -17,6 +18,18 @@ class ProductService {
 
       const result = await axios.get(url);
       console.log("getProducts >>>>", result);
+      return result.data;
+    } catch (err) {
+      console.log("Error, getProducts", err);
+      throw err;
+    }
+  }
+  public async getProduct(productId: string): Promise<Product> {
+    try {
+      let url = `${this.path}/product/${productId}`;
+      const result = await axios.get(url, { withCredentials: true });
+
+      console.log("getProduct", result);
       return result.data;
     } catch (err) {
       console.log("Error, getProduct", err);
