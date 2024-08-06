@@ -45,7 +45,7 @@ export default function Products() {
   return (
     <div className={"products"}>
       <Container>
-        <Stack flexDirection={"column"} alignItems={"center"}>
+        <Stack flexDirection={"column"}>
           <Stack
             className={"avatar-big-box"}
             direction="row"
@@ -134,10 +134,12 @@ export default function Products() {
                           </Button>
                           <Button className="view-btn">
                             <Badge
+                              className={"badge"}
                               badgeContent={product.productViews}
                               color="secondary"
                             >
                               <RemoveRedEyeIcon
+                                className="redeye"
                                 sx={{
                                   color:
                                     product.productViews === 0

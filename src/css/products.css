@@ -94,39 +94,37 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  position: relative;
-  left: 500px;
-  gap: 10px;
-  margin-top: 31px;
+  justify-content: end;
+  gap: 20px;
 }
 .products-page .products .list-category-section {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  margin-bottom: 80px;
 }
 .products-page .products .list-category-section .product-category {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
-  position: relative;
-  bottom: 110px;
-  left: 20px;
+  align-items: flex-start;
+  gap: 45px;
+  margin-top: 80px;
 }
 .products-page .products .list-category-section .product-category .order {
   width: 68px;
   height: 36px;
   transform: rotate(-90deg);
   flex-shrink: 0;
-  margin: 20px 0;
+
   border-radius: 8px;
 }
 .products-page .products .list-category-section .product-card {
   display: flex;
   justify-content: space-between;
-  margin-top: 50px;
   flex-wrap: wrap;
+  margin-top: 50px;
 }
 .products-page .products .list-category-section .product-card .product-img {
   width: 273px;
@@ -176,6 +174,7 @@
   top: 8px;
   left: 8px;
   height: 30px;
+  z-index: 10000;
   flex-shrink: 0;
   border-radius: 25px;
   background: #ff9200;
@@ -214,19 +213,42 @@
   flex-shrink: 0;
   border-radius: 10px;
   border: 1px solid #e3c08d;
+  position: relative;
+  z-index: 1000000;
   background: rgba(187, 47, 200, 0.78);
+}
+
+.products-page
+  .products
+  .list-category-section
+  .product-card
+  .main-two
+  .view-btn
+  .badge {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  flex-shrink: 0;
+  background-color: black;
+  opacity: 30%;
 }
 .products-page
   .products
   .list-category-section
   .product-card
   .main-two
-  .view-btn {
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  fill: rgba(0, 0, 0, 0.4);
+  .view-btn
+  .badge
+  .redeye {
+  position: relative;
+  left: 6px;
+  color: #fff;
+  z-index: 10000;
 }
+
 .products-page .products .list-category-section .product-desc {
   text-align: center;
   position: relative;
@@ -250,9 +272,9 @@
   line-height: normal;
 }
 .products-page .products .pagination-section {
-  position: relative;
-  left: 20px;
-  top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* BRAND_LOGO */
