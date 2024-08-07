@@ -66,6 +66,8 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
   const handlePassword = (e: T) => {
     setmemberPassword(e.target.value);
   };
+  console.log("NICK", memberNick);
+  console.log("PASSWORD", memberPassword);
 
   const handlePasswordKeyDown = (e: T) => {
     if (e.key === "Enter" && signupOpen) {
@@ -212,7 +214,7 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
                 label="username"
                 variant="outlined"
                 sx={{ my: "10px" }}
-                onClick={handleUsername}
+                onChange={handleUsername}
               />
               <TextField
                 id={"outlined-basic"}
