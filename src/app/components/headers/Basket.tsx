@@ -110,17 +110,17 @@ export default function Basket(props: BasketProps) {
               {cartItems.map((item: CartItem) => {
                 const imagePath = `${serverApi}/${item.image}`;
                 return (
-                  <Box className={"basket-info-box"} key={item._id}>
+                  <Box className={"basket-info-box"}>
                     <div className={"cancel-btn"}>
                       <CancelIcon
                         color={"primary"}
                         onClick={() => onDelete(item)}
                       />
                     </div>
-                    <img src={"/img/fresh.webp"} className={"product-img"} />
+                    <img src={imagePath} className={"product-img"} />
                     <span className={"product-name"}>{item.name}</span>
                     <p className={"product-price"}>
-                      ${item.price} x {item.quantity}
+                      {item.price} x {item.quantity}
                     </p>
                     <Box sx={{ minWidth: 120 }}>
                       <div className="col-2">
