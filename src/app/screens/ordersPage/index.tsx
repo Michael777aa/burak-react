@@ -1,13 +1,25 @@
 import React, { useState, SyntheticEvent } from "react";
 import { Box, Container, Stack, Tab, Tabs } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import PausedOrders from "./PausedOrders"; // Adjust the import paths as necessary
-import ProcessOrders from "./ProcessOrders"; // Adjust the import paths as necessary
-import FinishedOrders from "./FinishedOrders"; // Adjust the import paths as necessary
-import "../../../css/order.css"; // Adjust the path as necessary
+import { Dispatch } from "@reduxjs/toolkit";
+import { Order } from "../../../lib/types/order";
+import PausedOrders from "./PausedOrders";
+import ProcessOrders from "./ProcessOrders";
+import { useDispatch } from "react-redux";
+import FinishedOrders from "./FinishedOrders";
+import { setFinishedOrders, setPausedOrders, setProcessOrders } from "./slice";
+import "../../../css/order.css";
+
+//REDUX SLICE SELECTOR
+const actionDispatch = (dispatch: Dispatch) => ({
+  setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
+  setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
+  setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
+});
 
 export default function OrdersPage() {
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+    actionDispatch(useDispatch());
   const [value, setValue] = useState("1");
 
   const handleChange = (e: SyntheticEvent, newValue: string) => {
@@ -37,8 +49,6 @@ export default function OrdersPage() {
               <PausedOrders />
               <ProcessOrders />
               <FinishedOrders />
-
-              {/* Add the component or content for finished orders */}
             </Stack>
           </TabContext>
         </Stack>
