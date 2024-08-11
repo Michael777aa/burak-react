@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Stack, dividerClasses } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Menu from "@mui/material/Menu";
@@ -9,9 +9,12 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory } from "react-router-dom";
 import { CartItem } from "../../../lib/types/search";
 import { Messages, serverApi } from "../../../lib/config";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import {
+  sweetErrorHandling,
+  sweetTopSuccessAlert,
+} from "../../../lib/sweetAlert";
 import { useGlobals } from "../../hooks/useGlobals";
-import OrderService from "../../services/Order.Service";
+import OrderService from "../../services/OrderSerivce";
 
 interface BasketProps {
   cartItems: CartItem[];
@@ -22,14 +25,14 @@ interface BasketProps {
 }
 
 export default function Basket(props: BasketProps) {
-  const { cartItems, onAdd, onDelete, onRemove, onDeleteAll } = props;
-  const authMember = useGlobals();
+  const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
+  const { authMember, setOrderBuilder } = useGlobals();
   const history = useHistory();
   const itemsPrice: number = cartItems.reduce(
     (a: number, c: CartItem) => a + c.quantity * c.price,
     0
   );
-  const shippingCost = itemsPrice < 100 ? 5 : 0;
+  const shippingCost: number = itemsPrice < 100 ? 5 : 0;
   const totalPrice = (itemsPrice + shippingCost).toFixed(1);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -42,17 +45,17 @@ export default function Basket(props: BasketProps) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const proceedOrderHandler = async () => {
     try {
       handleClose();
       if (!authMember) throw new Error(Messages.error2);
-
       const order = new OrderService();
-
       await order.createOrder(cartItems);
-
       onDeleteAll();
       // REFRESH VIA CONTEXT
+      sweetTopSuccessAlert("Successfully added to Orders");
+      setOrderBuilder(new Date());
       history.push("/orders");
     } catch (err) {
       console.log(err);
@@ -112,12 +115,12 @@ export default function Basket(props: BasketProps) {
         <Stack className={"basket-frame"}>
           <Box className={"all-check-box"}>
             {cartItems.length === 0 ? (
-              <div> Cart is empty!</div>
+              <div>Cart is empty!</div>
             ) : (
               <Stack flexDirection={"row"}>
-                <div>Cart Products:</div>
+                <div>Cart Products: </div>
                 <DeleteForeverIcon
-                  sx={{ marginLeft: "5px", cursor: "pointer" }}
+                  sx={{ ml: "5px", cursor: "pointer" }}
                   color={"primary"}
                   onClick={() => onDeleteAll()}
                 />
@@ -130,7 +133,7 @@ export default function Basket(props: BasketProps) {
               {cartItems.map((item: CartItem) => {
                 const imagePath = `${serverApi}/${item.image}`;
                 return (
-                  <Box className={"basket-info-box"}>
+                  <Box className={"basket-info-box"} key={item._id}>
                     <div className={"cancel-btn"}>
                       <CancelIcon
                         color={"primary"}
@@ -140,17 +143,17 @@ export default function Basket(props: BasketProps) {
                     <img src={imagePath} className={"product-img"} />
                     <span className={"product-name"}>{item.name}</span>
                     <p className={"product-price"}>
-                      {item.price} x {item.quantity}
+                      ${item.price} x {item.quantity}
                     </p>
                     <Box sx={{ minWidth: 120 }}>
                       <div className="col-2">
                         <button
-                          onClick={() => onRemove(item)}
                           className="remove"
+                          onClick={() => onRemove(item)}
                         >
                           -
                         </button>{" "}
-                        <button onClick={() => onAdd(item)} className="add">
+                        <button className="add" onClick={() => onAdd(item)}>
                           +
                         </button>
                       </div>

@@ -1,10 +1,16 @@
 import axios from "axios";
 import { serverApi } from "../../lib/config";
+import {
+  Order,
+  OrderInquiry,
+  OrderItemInput,
+  OrderUpdateInput,
+} from "../../lib/types/order";
 import { CartItem } from "../../lib/types/search";
-import { Order, OrderInquiry, OrderItemInput } from "../../lib/types/order";
 
 class OrderService {
   private readonly path: string;
+
   constructor() {
     this.path = serverApi;
   }
@@ -19,14 +25,15 @@ class OrderService {
         };
       });
 
-      const url = this.path + "/order/create";
+      const url = `${this.path}/order/create`;
       const result = await axios.post(url, orderItems, {
         withCredentials: true,
       });
+
       console.log("createOrder", result);
       return result.data;
     } catch (err) {
-      console.log("Error, createOrder", err);
+      console.log("Error, createOrder: ", err);
       throw err;
     }
   }
@@ -38,13 +45,28 @@ class OrderService {
       const query = `?page=${input.page}&limit=${input.limit}&orderStatus=${input.orderStatus}`;
 
       const result = await axios.get(url + query, { withCredentials: true });
-      console.log("getMyOrders:", result);
+
+      console.log("getMyOrder: ", result);
 
       return result.data;
     } catch (err) {
-      console.log("Error, getMyOrders", err);
+      console.log("Error, getMyOrders: ", err);
+      throw err;
+    }
+  }
+
+  public async updateOrder(input: OrderUpdateInput): Promise<Order> {
+    try {
+      const url = `${this.path}/order/update`;
+      const result = await axios.post(url, input, { withCredentials: true });
+      console.log("result", result);
+
+      return result.data;
+    } catch (err) {
+      console.log("Error, updateOrder:");
       throw err;
     }
   }
 }
+
 export default OrderService;

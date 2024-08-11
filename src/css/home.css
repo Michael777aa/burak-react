@@ -2,6 +2,7 @@
   width: 100%;
   height: auto;
 }
+
 /* STATISTICS */
 
 .homepage .static-frame {
@@ -17,13 +18,14 @@
   align-items: center;
 }
 .homepage .static-frame .info .static-box {
-  width: 200px;
+  height: 200px;
   height: 116px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .homepage .static-frame .info .static-box .static-num {
   text-align: center;
   font-family: "Poppins";
@@ -48,9 +50,9 @@
 
 .homepage .popular-dishes-frame {
   width: 100%;
-  height: 580px;
+  height: auto;
   display: flex;
-  background-color: #f8f8ff;
+  background: #f8f8ff;
 }
 
 .homepage .popular-dishes-frame .popular-section {
@@ -75,11 +77,32 @@
   width: 100%;
   margin-top: 43px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
-  justify-content: flex-start;
-  gap: 25px;
+  gap: 15px;
 }
-.homepage .popular-dishes-frame .popular-section .cards-frame .no-data {
+
+.homepage .popular-dishes-frame .popular-section .cards-frame .card {
+  min-height: 430px;
+  min-width: 300px;
+  margin-bottom: 35px;
+  cursor: pointer;
+}
+.homepage
+  .popular-dishes-frame
+  .popular-section
+  .cards-frame
+  .card
+  .card-cover {
+  background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0) 200px
+    ),
+    linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0) 300px);
+}
+
+.homepage .popular-dishes-frame .no-data {
   width: 100%;
   height: 300px;
   display: flex;
@@ -94,69 +117,59 @@
   color: #e3c08d;
 }
 
-.homepage .popular-dishes-frame .cards-frame .card {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  min-height: 430px;
-  min-width: 300px;
-  cursor: pointer;
-}
-.homepage .popular-dishes-frame .cards-frame .card .card-cover {
-  min-height: 430px;
-  min-width: 300px;
-  cursor: pointer;
-}
-
-/* NEW PRODUCTS */
+/* NEW DISHES */
 
 .homepage .new-products-frame {
   width: 100%;
-  height: 605px;
-  background-color: #f8f8ff;
+  height: auto;
   display: flex;
+  color: #f8f8ff;
 }
 
-.homepage .main {
+.homepage .new-products-frame .main {
   margin-top: 45px;
   display: flex;
   flex-direction: column;
-
   align-items: center;
 }
 
-.homepage .new-products-frame .category-title {
+.homepage .new-products-frame .main .category-title {
   font-family: "Dancing Script";
   font-style: normal;
   font-weight: 700;
   font-size: 36px;
   line-height: 43px;
+  color: #000;
 }
+
 .homepage .new-products-frame .main .cards-frame {
   width: 100%;
-  margin: 47px 2px 2px 2px;
+  margin: 48px 2px 2px 2px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  gap: 30px;
 }
-.homepage .new-products-frame .main .card {
+
+.homepage .new-products-frame .main .cards-frame .card {
   height: 335px;
   width: 290px;
+  margin: 25px 0;
   cursor: pointer;
 }
-.homepage .new-products-frame .product-sale {
+
+.homepage .new-products-frame .main .cards-frame .card .product-sale {
   position: absolute;
   margin-top: 10px;
   z-index: 100;
   width: 90px;
   height: 30px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background-color: #ff9200;
-  box-shadow: 4px 6px 20px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  background: #ff9200;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 25px;
   font-family: "Poppins";
   font-style: normal;
@@ -165,7 +178,7 @@
   line-height: 21px;
   color: #f8f8ff;
 }
-.homepage .new-products-frame .product-detail {
+.homepage .new-products-frame .main .cards-frame .card .product-detail {
   width: auto;
   height: 49%;
   display: flex;
@@ -175,32 +188,67 @@
   border-color: #f8f8ff;
   background-color: #fafbfb;
 }
-.homepage .new-products-frame .product-detail .info {
+
+.homepage .new-products-frame .main .cards-frame .card .product-detail .info {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
-.homepage .new-products-frame .product-detail .title {
+
+.homepage
+  .new-products-frame
+  .main
+  .cards-frame
+  .card
+  .product-detail
+  .info
+  .title {
   width: 65px;
   font-weight: 500;
 }
-.homepage .new-products-frame .product-detail .price {
+
+.homepage
+  .new-products-frame
+  .main
+  .cards-frame
+  .card
+  .product-detail
+  .info
+  .price {
   margin-left: 10px;
   width: 20px;
   font-weight: 500;
+  justify-self: center;
+  align-self: center;
 }
-.homepage .new-products-frame .product-detail .divider {
-  margin: 0 10px 0 10px;
+
+.homepage
+  .new-products-frame
+  .main
+  .cards-frame
+  .card
+  .product-detail
+  .info
+  .divider {
+  margin: 0px 10px 0px 10px;
   width: 2px;
-  background-color: #d9d9d9;
+  color: #d9d9d9;
 }
-.homepage .new-products-frame .product-detail .views {
+.homepage
+  .new-products-frame
+  .main
+  .cards-frame
+  .card
+  .product-detail
+  .info
+  .views {
   display: flex;
   align-items: center;
   font-weight: 500;
 }
+
 .homepage .new-products-frame .no-data {
   width: 100%;
   height: 300px;
@@ -215,34 +263,38 @@
   line-height: 34px;
   color: #e3c08d;
 }
+
 /* ADVERTISEMENT */
+
 .homepage .ads-restaurant-frame {
   width: 100%;
   height: 693px;
   display: flex;
   overflow: hidden;
   transform: perspective(0px);
-  box-shadow: -3px 0 20px 14px #34343480;
+  box-shadow: -3px 0px 20px 14px #34343480;
 }
+
 .homepage .ads-restaurant-frame .ads-video {
   width: 100%;
-  background: #0c0e12;
   display: flex;
-  box-shadow: 0 -8px 90px rgb(215 215 255);
-  transform: scale(1.5);
   overflow: hidden;
+  transform: scale(1.5);
+  box-shadow: 0px -8px 90px rgb(215 215 255);
+  background: #0c0e12;
 }
+
 /* ACTIVE USERS */
 
 .homepage .active-users-frame {
   width: 100%;
-  height: 605px;
-  background-color: #f8f8ff;
+  height: auto;
   display: flex;
+  color: #f8f8ff;
 }
 
-.homepage .main {
-  margin-top: 95px;
+.homepage .active-users-frame .main {
+  margin-top: 45px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -252,29 +304,36 @@
   font-family: "Dancing Script";
   font-style: normal;
   font-weight: 700;
-  font-size: 35px;
+  font-size: 36px;
   line-height: 43px;
+  color: #000;
 }
-.homepage .active-users-frame .main .cards-frame {
+.homepage .active-users-frame .cards-frame {
   width: 100%;
-  margin: 27px 2px;
-  flex-direction: row;
-  justify-content: center;
-  gap: 13px;
-}
-.homepage .active-users-frame .main .card {
-  height: 335px;
-  width: 290px;
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 4px 6px 20px rgba(0, 0, 0, 0.1);
+  margin: 48px 2px 2px 2px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 30px;
 }
 
-.homepage .active-users-frame .no-data {
+.homepage .cards-frame .card {
+  height: 335px;
+  width: 290px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.homepage .cards-frame .member-nickname {
+  width: 65px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  font-weight: 500;
+  color: #000;
+}
+
+.homepage .cards-frame .no-data {
   width: 100%;
   height: 300px;
   display: flex;

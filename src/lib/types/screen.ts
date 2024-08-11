@@ -2,28 +2,28 @@ import { Member } from "./member";
 import { Order } from "./order";
 import { Product } from "./product";
 
-/**  REACT APP STATE  **/
+// REACT APP STATE
 export interface AppRootState {
   homePage: HomePageState;
   productsPage: ProductsPageState;
   ordersPage: OrdersPageState;
 }
 
-/**  HOMEPAGE  **/
+// HOMEPAGE
 export interface HomePageState {
   popularDishes: Product[];
   newDishes: Product[];
   topUsers: Member[];
 }
 
-/**  PRODUCTS PAGE  **/
+// PRODUCTSPAGE
 export interface ProductsPageState {
+  products: Product[];
   restaurant: Member | null;
   chosenProduct: Product | null;
-  products: Product[];
 }
 
-/**  ORDERS PAGE  **/
+// ORDERSPAGE
 export interface OrdersPageState {
   pausedOrders: Order[];
   processOrders: Order[];

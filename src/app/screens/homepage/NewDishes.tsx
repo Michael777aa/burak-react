@@ -1,29 +1,33 @@
 import React from "react";
-import { Box, Container, Stack } from "@mui/material";
-import { CssVarsProvider } from "@mui/joy/styles";
+import { Box, CardContent, Container, Stack } from "@mui/material";
+import AspectRatio from "@mui/joy/AspectRatio";
 import Card from "@mui/joy/Card";
 import CardOverflow from "@mui/joy/CardOverflow";
-import AspectRatio from "@mui/joy/AspectRatio";
-import Typography from "@mui/joy/Typography";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import Divider from "@mui/material/Divider";
+import { CssVarsProvider } from "@mui/joy/styles";
+import Divider from "../../components/divider";
+import Typography from "@mui/joy/Typography";
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
-import { retrievePopularDishes } from "./selector";
-import { serverApi } from "../../../lib/config";
+import { retrieveNewDishes } from "./selector";
 import { Product } from "../../../lib/types/product";
+import { serverApi } from "../../../lib/config";
 import { ProductCollection } from "../../../lib/enums/product.enum";
+import { useHistory } from "react-router-dom";
 
-//REDUX SLICE SELECTOR
-
-const newDishesRetriever = createSelector(
-  retrievePopularDishes,
-  (newDishes) => ({ newDishes })
-);
+const newDishesRetriever = createSelector(retrieveNewDishes, (newDishes) => ({
+  newDishes,
+}));
 
 export default function NewDishes() {
   const { newDishes } = useSelector(newDishesRetriever);
+  const history = useHistory();
+
+  const chooseDishHandler = (id: string) => {
+    history.push(`/products/${id}`);
+  };
+
   return (
     <div className="new-products-frame">
       <Container>
@@ -32,27 +36,33 @@ export default function NewDishes() {
           <Stack className="cards-frame">
             <CssVarsProvider>
               {newDishes.length !== 0 ? (
-                newDishes.map((product: Product, index) => {
+                newDishes.map((product: Product) => {
                   const imagePath = `${serverApi}/${product.productImages[0]}`;
-                  const sizeVolume =
+                  const productVolume =
                     product.productCollection === ProductCollection.DRINK
-                      ? product.productVolume + "l"
-                      : product.productSize + "size";
+                      ? product.productVolume + " l"
+                      : product.productSize + " size";
                   return (
-                    <Card key={product._id} variant="outlined" className="card">
+                    <Card
+                      onClick={() => chooseDishHandler(product._id)}
+                      key={product._id}
+                      variant="outlined"
+                      className="card"
+                    >
                       <CardOverflow>
-                        <div className="product-sale">{sizeVolume}</div>
-                        <AspectRatio ratio="1">
-                          <img src={imagePath} />
+                        <div className="product-sale">{productVolume}</div>
+                        <AspectRatio ratio={1}>
+                          <img src={imagePath} alt="" />{" "}
                         </AspectRatio>
                       </CardOverflow>
+
                       <CardOverflow variant="soft" className="product-detail">
                         <Stack className="info">
-                          <Stack flexDirection="row">
+                          <Stack flexDirection={"row"}>
                             <Typography className="title">
                               {product.productName}
                             </Typography>
-                            <Divider orientation="vertical" flexItem />
+                            <Divider height="24" width="2" bg="#d9d9d9" />
                             <Typography className="price">
                               ${product.productPrice}
                             </Typography>
@@ -62,7 +72,7 @@ export default function NewDishes() {
                               {product.productViews}
                               <VisibilityIcon
                                 sx={{ fontSize: 20, marginLeft: "5px" }}
-                              />
+                              ></VisibilityIcon>
                             </Typography>
                           </Stack>
                         </Stack>
@@ -71,7 +81,7 @@ export default function NewDishes() {
                   );
                 })
               ) : (
-                <Box className={"no-data"}>New products are not available!</Box>
+                <Box className="no-data">New products are not available!</Box>
               )}
             </CssVarsProvider>
           </Stack>

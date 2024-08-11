@@ -9,7 +9,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import "./css/index.css";
 import theme from "./app/MaterialTheme";
 import { BrowserRouter as Router } from "react-router-dom";
-import ContextProvider from "./app/context/Context.Provider";
+import ContextProvider from "./app/context/ContextProvider";
+
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 

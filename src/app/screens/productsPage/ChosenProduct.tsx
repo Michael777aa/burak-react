@@ -10,52 +10,49 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper";
-import { setChosenProduct, setRestaurant } from "./slice";
+import { createSelector } from "@reduxjs/toolkit";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
 import { retrieveChosenProduct, retrieveRestaurant } from "./selector";
+import { setChosenProduct, setRestaurant } from "./slice";
 import { Product } from "../../../lib/types/product";
-import { Dispatch, createSelector } from "@reduxjs/toolkit";
+import { Member } from "../../../lib/types/member";
 import { useParams } from "react-router-dom";
 import ProductService from "../../services/ProductService";
-import MemberService from "../../services/Member.Service";
-import { Member } from "../../../lib/types/member";
-import { useDispatch, useSelector } from "react-redux";
+import MemberService from "../../services/MemberService";
 import { serverApi } from "../../../lib/config";
 import { CartItem } from "../../../lib/types/search";
 
-//REDUX SLICE SELECTOR
 const actionDispatch = (dispatch: Dispatch) => ({
-  setRestaurant: (data: Member) => dispatch(setRestaurant(data)),
   setChosenProduct: (data: Product) => dispatch(setChosenProduct(data)),
+  setRestaurant: (data: Member) => dispatch(setRestaurant(data)),
 });
 
-const ChosenProductRetriever = createSelector(
+const chosenProductRetriever = createSelector(
   retrieveChosenProduct,
-  (chosenProduct) => ({
-    chosenProduct,
-  })
+  (chosenProduct) => ({ chosenProduct })
 );
-
 const restaurantRetriever = createSelector(
   retrieveRestaurant,
-  (restaurant) => ({
-    restaurant,
-  })
+  (restaurant) => ({ restaurant })
 );
 
-interface ChosenProductProps {
+interface ChosenProducteProps {
   onAdd: (item: CartItem) => void;
 }
 
-export default function ChosenProduct(props: ChosenProductProps) {
+export default function ChosenProduct(props: ChosenProducteProps) {
   const { onAdd } = props;
-  const { productId } = useParams<{ productId: string }>();
-  const { setRestaurant, setChosenProduct } = actionDispatch(useDispatch());
-  const { chosenProduct } = useSelector(ChosenProductRetriever);
+  const { setChosenProduct, setRestaurant } = actionDispatch(useDispatch());
+  const { chosenProduct } = useSelector(chosenProductRetriever);
   const { restaurant } = useSelector(restaurantRetriever);
-  console.log(productId);
+
+  const { productId } = useParams<{ productId: string }>();
+  console.log("productId: ", productId);
 
   useEffect(() => {
     const product = new ProductService();
+
     product
       .getProduct(productId)
       .then((data) => setChosenProduct(data))
@@ -94,7 +91,7 @@ export default function ChosenProduct(props: ChosenProductProps) {
         <Stack className={"chosen-product-info"}>
           <Box className={"info-box"}>
             <strong className={"product-name"}>
-              {chosenProduct?.productName}
+              {chosenProduct.productName}
             </strong>
             <span className={"resto-name"}>{restaurant?.memberNick}</span>
             <span className={"resto-name"}>{restaurant?.memberPhone}</span>
@@ -103,7 +100,7 @@ export default function ChosenProduct(props: ChosenProductProps) {
               <div className={"evaluation-box"}>
                 <div className={"product-view"}>
                   <RemoveRedEyeIcon sx={{ mr: "10px" }} />
-                  <span>{chosenProduct?.productViews}</span>
+                  <span>{chosenProduct.productViews}</span>
                 </div>
               </div>
             </Box>
@@ -115,20 +112,20 @@ export default function ChosenProduct(props: ChosenProductProps) {
             <Divider height="1" width="100%" bg="#000000" />
             <div className={"product-price"}>
               <span>Price:</span>
-              <span>${chosenProduct?.productPrice}</span>
+              <span>{`$${chosenProduct?.productPrice}`}</span>
             </div>
             <div className={"button-box"}>
               <Button
                 variant="contained"
                 onClick={(e) => {
+                  e.stopPropagation();
                   onAdd({
                     _id: chosenProduct._id,
                     quantity: 1,
-                    name: chosenProduct.productName,
                     price: chosenProduct.productPrice,
+                    name: chosenProduct.productName,
                     image: chosenProduct.productImages[0],
                   });
-                  e.stopPropagation();
                 }}
               >
                 Add To Basket

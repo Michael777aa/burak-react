@@ -4,54 +4,60 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import Card from "@mui/joy/Card";
 import CardCover from "@mui/joy/CardCover";
 import CardContent from "@mui/joy/CardContent";
+import CardOverflow from "@mui/joy/CardOverflow";
 import Typography from "@mui/joy/Typography";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import CardOverflow from "@mui/joy/CardOverflow";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 
 import { useSelector } from "react-redux";
 import { createSelector } from "reselect";
 import { retrievePopularDishes } from "./selector";
-import { serverApi } from "../../../lib/config";
 import { Product } from "../../../lib/types/product";
+import { serverApi } from "../../../lib/config";
+import { useHistory } from "react-router-dom";
 
-//REDUX SLICE SELECTOR
-
-const popularDishesRetriever = createSelector(
+const propularDishesRetriever = createSelector(
   retrievePopularDishes,
   (popularDishes) => ({ popularDishes })
 );
 
 export default function PopularDishes() {
-  const { popularDishes } = useSelector(popularDishesRetriever);
+  const { popularDishes } = useSelector(propularDishesRetriever);
+  const history = useHistory();
+
+  const chooseDishHandler = (id: string) => {
+    history.push(`/products/${id}`);
+  };
+
   return (
-    <div className={"popular-dishes-frame"}>
+    <div className="popular-dishes-frame">
       <Container>
-        <Stack className={"popular-section"}>
-          <Box className={"category-title"}>Popular Dishes</Box>
-          <Stack className={"cards-frame"}>
+        <Stack className="popular-section">
+          <Box className="category-title">Popular Dishes</Box>
+          <Stack className="cards-frame">
             {popularDishes.length !== 0 ? (
               popularDishes.map((product: Product) => {
                 const imagePath = `${serverApi}/${product.productImages[0]}`;
                 return (
                   <CssVarsProvider key={product._id}>
-                    <Card className={"card"}>
+                    <Card
+                      className="card"
+                      onClick={() => chooseDishHandler(product._id)}
+                    >
                       <CardCover>
-                        <img src={imagePath} />
+                        <img src={imagePath} alt="" />
                       </CardCover>
-                      <CardCover className={"card-cover"} />
+                      <CardCover className="card-cover" />
                       <CardContent sx={{ justifyContent: "flex-end" }}>
                         <Stack
-                          display={"flex"}
                           flexDirection={"row"}
                           justifyContent={"space-between"}
-                          alignItems={"center"}
                         >
                           <Typography
                             level="h2"
-                            fontSize="lg"
-                            textColor="#fff"
+                            fontSize={"lg"}
                             mb={1}
+                            textColor="#fff"
                           >
                             {product.productName}
                           </Typography>
@@ -61,16 +67,11 @@ export default function PopularDishes() {
                               color: "neutral.300",
                               alignItems: "center",
                               display: "flex",
-                              position: "relative",
-                              left: "180px",
                             }}
                           >
                             {product.productViews}
                             <VisibilityIcon
-                              sx={{
-                                fontSize: 25,
-                                marginLeft: "5px",
-                              }}
+                              sx={{ fontSize: "25", marginLeft: "5px" }}
                             />
                           </Typography>
                         </Stack>
@@ -78,25 +79,17 @@ export default function PopularDishes() {
                       <CardOverflow
                         sx={{
                           display: "flex",
-
-                          gap: "1.5",
-                          py: "1.5",
+                          gap: 1.5,
+                          py: 1.5,
                           px: "var(--Card-padding)",
                           borderTop: "1px solid",
                           height: "60px",
                         }}
                       >
                         <Typography
+                          startDecorator={<DescriptionOutlinedIcon />}
                           textColor="neutral.300"
-                          sx={{
-                            display: "flex",
-                            justifyContent: "flex-start",
-                            alignItems: "center",
-                            position: "relative",
-                            top: "15px",
-                          }}
                         >
-                          <DescriptionOutlinedIcon />
                           {product.productDesc}
                         </Typography>
                       </CardOverflow>
@@ -105,9 +98,7 @@ export default function PopularDishes() {
                 );
               })
             ) : (
-              <Box className={"no-data"}>
-                Popular products are not available!
-              </Box>
+              <Box className="no-data">Popular products are not available!</Box>
             )}
           </Stack>
         </Stack>

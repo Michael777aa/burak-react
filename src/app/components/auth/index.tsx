@@ -7,11 +7,14 @@ import { Fab, Stack, TextField } from "@mui/material";
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
 import { T } from "../../../lib/types/common";
-import { log } from "console";
 import { Messages } from "../../../lib/config";
 import { LoginInput, MemberInput } from "../../../lib/types/member";
-import MemberService from "../../services/Member.Service";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import MemberService from "../../services/MemberService";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+  sweetTopSuccessAlert,
+} from "../../../lib/sweetAlert";
 import { useGlobals } from "../../hooks/useGlobals";
 
 const useStyles = makeStyles((theme) => ({
@@ -48,41 +51,34 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
   const { signupOpen, loginOpen, handleSignupClose, handleLoginClose } = props;
   const classes = useStyles();
   const [memberNick, setMemberNick] = useState<string>("");
-  const [memberPhone, setmemberPhone] = useState<string>("");
-  const [memberPassword, setmemberPassword] = useState<string>("");
-
+  const [memberPhone, setMemberPhone] = useState<string>("");
+  const [memberPassword, setMemberPassword] = useState<string>("");
   const { setAuthMember } = useGlobals();
 
-  /** HANDLERS **/
+  /**HANDLERS */
   const handleUsername = (e: T) => {
-    console.log(e.target.value);
     setMemberNick(e.target.value);
   };
-
   const handlePhone = (e: T) => {
-    setmemberPhone(e.target.value);
+    setMemberPhone(e.target.value);
   };
-
   const handlePassword = (e: T) => {
-    setmemberPassword(e.target.value);
+    setMemberPassword(e.target.value);
   };
-  console.log("NICK", memberNick);
-  console.log("PASSWORD", memberPassword);
 
   const handlePasswordKeyDown = (e: T) => {
     if (e.key === "Enter" && signupOpen) {
       handleSignupRequest().then();
     } else if (e.key === "Enter" && loginOpen) {
-      handleSignupRequest().then();
+      handleLoginRequest().then();
     }
   };
 
   const handleSignupRequest = async () => {
     try {
-      console.log(memberNick, memberPassword, memberPhone);
-      const isFulfill =
+      const isFullfill =
         memberNick !== "" && memberPhone !== "" && memberPassword !== "";
-      if (!isFulfill) throw new Error(Messages.error3);
+      if (!isFullfill) throw new Error(Messages.error3);
 
       const signupInput: MemberInput = {
         memberNick: memberNick,
@@ -91,22 +87,20 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
       };
 
       const member = new MemberService();
-
       const result = await member.signup(signupInput);
-
-      // Saving authenticated user
       setAuthMember(result);
       handleSignupClose();
+      sweetTopSuccessAlert("Succesfully created!");
     } catch (err) {
-      console.log(err);
+      handleSignupClose();
       sweetErrorHandling(err).then();
     }
   };
 
   const handleLoginRequest = async () => {
     try {
-      const isFulfill = memberNick !== "" && memberPassword !== "";
-      if (!isFulfill) throw new Error(Messages.error3);
+      const isFullfill = memberNick !== "" && memberPassword !== "";
+      if (!isFullfill) throw new Error(Messages.error3);
 
       const loginInput: LoginInput = {
         memberNick: memberNick,
@@ -114,16 +108,16 @@ export default function AuthenticationModal(props: AuthenticationModalProps) {
       };
 
       const member = new MemberService();
-
       const result = await member.login(loginInput);
-      // Saving authenticated user
       setAuthMember(result);
       handleLoginClose();
+      sweetTopSuccessAlert("Succesfully logged in!");
     } catch (err) {
       handleLoginClose();
       sweetErrorHandling(err).then();
     }
   };
+
   return (
     <div>
       <Modal

@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import Statistics from "./Statistics";
-import PopularDishes from "./PopularDishes";
-import NewDishes from "./NewDishes";
+import ActiveUsers from "./ActiveUsers";
 import Advertisement from "./Advertisement";
-import ActiveUsers from "./ActiveUser";
 import Events from "./Events";
-import { useDispatch } from "react-redux";
+import NewDishes from "./NewDishes";
+import PopularDishes from "./PopularDishes";
+import Statistics from "./Statistics";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setNewDishes, setPopularDishes, setTopUsers } from "./slice";
 import { Product } from "../../../lib/types/product";
 import ProductService from "../../services/ProductService";
 import { ProductCollection } from "../../../lib/enums/product.enum";
+import MemberService from "../../services/MemberService";
 import "../../../css/home.css";
-import MemberService from "../../services/Member.Service";
 import { Member } from "../../../lib/types/member";
 
-//REDUX SLICE SELECTOR
+// REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
   setPopularDishes: (data: Product[]) => dispatch(setPopularDishes(data)),
   setNewDishes: (data: Product[]) => dispatch(setNewDishes(data)),
@@ -27,11 +27,10 @@ export default function HomePage() {
     useDispatch()
   );
 
-  // Selector:Store => Data
-
   useEffect(() => {
-    // Backend server data request => Data
+    // Data fetch
     const product = new ProductService();
+    const member = new MemberService();
     product
       .getProducts({
         page: 1,
@@ -40,30 +39,38 @@ export default function HomePage() {
         productCollection: ProductCollection.DISH,
       })
       .then((data) => {
+        console.log("data: ", data);
         setPopularDishes(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
 
     product
       .getProducts({
         page: 1,
         limit: 4,
         order: "createdAt",
-        productCollection: ProductCollection.DISH,
       })
       .then((data) => {
+        console.log("data: ", data);
         setNewDishes(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
 
-    const member = new MemberService();
     member
       .getTopUsers()
       .then((data) => {
+        console.log("data: ", data);
         setTopUsers(data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
   return (
     <div className={"homepage"}>
       <Statistics />

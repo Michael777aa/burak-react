@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { HomePageState, OrdersPageState } from "../../../lib/types/screen";
+import { OrdersPageState } from "../../../lib/types/screen";
 
 const initialState: OrdersPageState = {
   pausedOrders: [],
   processOrders: [],
   finishedOrders: [],
 };
+
 const ordersPageSlice = createSlice({
   name: "ordersPage",
   initialState,
@@ -21,8 +22,9 @@ const ordersPageSlice = createSlice({
     },
   },
 });
+
 export const { setPausedOrders, setProcessOrders, setFinishedOrders } =
   ordersPageSlice.actions;
 
-const OrderPageReducer = ordersPageSlice.reducer;
-export default OrderPageReducer;
+const OrdersPageReducer = ordersPageSlice.reducer;
+export default OrdersPageReducer;
