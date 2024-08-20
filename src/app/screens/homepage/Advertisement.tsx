@@ -4,6 +4,7 @@ export default function Advertisement() {
   return (
     <div className="ads-restaurant-frame">
       <video
+        data-aos="fade-up"
         className="ads-video"
         autoPlay={true}
         loop

@@ -8,7 +8,7 @@ SwiperCore.use([Autoplay, Navigation, Pagination]);
 export default function Events() {
   return (
     <div className={"events-frame"}>
-      <Stack className={"events-main"}>
+      <Stack data-aos="fade-up" className={"events-main"}>
         <Box className={"events-text"}>
           <span className={"category-title"}>Events</span>
         </Box>

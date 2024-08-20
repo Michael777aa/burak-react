@@ -8,6 +8,7 @@ import { CartItem } from "../../../lib/types/search";
 import { useGlobals } from "../../hooks/useGlobals";
 import { serverApi } from "../../../lib/config";
 import { Logout } from "@mui/icons-material";
+// Import AOS and its styles
 
 interface HomeNavbarProps {
   cartItems: CartItem[];
@@ -44,7 +45,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
   return (
     <div className="home-navbar">
       <Container className="navbar-container">
-        <Stack className="menu">
+        <Stack className="menu" data-aos="fade-up">
           <Box>
             <NavLink to={"/"}>
               <img className="brand-logo" src="/icons/burak.svg" />
@@ -156,7 +157,7 @@ export default function HomeNavbar(props: HomeNavbarProps) {
             </Menu>
           </Stack>
         </Stack>
-        <Stack className="header-frame">
+        <Stack data-aos="fade-up" className="header-frame">
           <Stack className="detail">
             <Box className="head-main-txt">World's Most Delicious Cousine</Box>
             <Box className="wel-txt">The Choice, not just a choice</Box>

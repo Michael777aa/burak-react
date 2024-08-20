@@ -11,6 +11,7 @@ import {
 } from "../../../lib/sweetAlert";
 import { Messages, serverApi } from "../../../lib/config";
 import MemberService from "../../services/MemberService";
+import React from "react";
 
 export function Settings() {
   const { authMember, setAuthMember } = useGlobals();

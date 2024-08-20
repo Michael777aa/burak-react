@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import Footer from "./components/footer";
 import HomeNavbar from "./components/headers/HomeNavbar";
@@ -18,6 +18,10 @@ import "../css/app.css";
 import "../css/navbar.css";
 import "../css/footer.css";
 
+// Import AOS and its styles
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 function App() {
   const location = useLocation();
   const { setAuthMember } = useGlobals();
@@ -25,6 +29,12 @@ function App() {
   const [signupOpen, setSignupOpen] = useState<boolean>(false);
   const [loginOpen, setLoginOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+    });
+  }, []);
 
   /**HANDLERS */
 

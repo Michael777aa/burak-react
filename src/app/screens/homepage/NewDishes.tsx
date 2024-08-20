@@ -31,7 +31,7 @@ export default function NewDishes() {
   return (
     <div className="new-products-frame">
       <Container>
-        <Stack className="main">
+        <Stack data-aos="fade-up" className="main">
           <Box className="category-title">Fresh Menu</Box>
           <Stack className="cards-frame">
             <CssVarsProvider>
